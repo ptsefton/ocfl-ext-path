@@ -1,6 +1,6 @@
-# OCFL Community Extension NNNN: Path Direct Storage Layout
+# OCFL Community Extension NNNN: URI Direct Storage Layout
 
-  * **Extension Name:** NNNN-path-direct-storage-layout
+  * **Extension Name:** NNNN-uri-direct-storage-layout
   * **Authors:** Alvin Sebastian, Peter Sefton
   * **Minimum OCFL Version:** 1.0
   * **OCFL Community Extensions Version:** 1.0
@@ -9,15 +9,16 @@
 
 ## Overview
 
-This storage root extension describes a transparent path-based OCFL storage layout. OCFL object identifiers are mapped directly to multi-level directory path that are direct children of the OCFL storage root directory.
+This storage root extension describes a transparent path-based OCFL storage layout. URI and path based identifiers are mapped directly to multi-level directory path that are direct children of the OCFL storage root directory.
 
-This extension assumes that the OCFL object identifier is a URL or a path name which is used directly to create nested paths under the OCFL storage root. An extra directory called `__object__` is added to the path to safely ensure that OCFL object is not nested under anoother OCFL object.
+This extension assumes that the OCFL object identifier is a URI or a path name which is used directly to create nested paths under the OCFL storage root. An extra directory called `__object__` is added to the path to safely ensure that OCFL object is not nested under anoother OCFL object.
 
 The limitations of this layout are filesystem dependent, but are generally as follows:
 
 * The size of each directory name cannot exceed the maximum allowed directory name size (eg. 255 bytes). The maximum combined length of path name cannot exceed the maximum allowed limit (eg. 4096 bytes).
 * Object IDs cannot include characters that are illegal in directory names.
 * Depending on the path structure, performance may degrade as the size of a repository increases if a lot of objects are put under a single directory.
+
 
 ## Parameters
 
@@ -53,6 +54,9 @@ The following is an outline of the steps to map an OCFL object identifier to an 
 This example demonstrates what the OCFL storage hierarchy looks like when using the default configuration.
 
 #### Mappings
+
+NOTE: The [The Archive and Package (arcp) URI scheme
+](https://www.research.manchester.ac.uk/portal/files/76956641/arcp.html) (ARCP) is used in these examples; it allows URI IDs to be minted locally by an archive which can be used in Linked Data systems as URIs.
 
 | Object ID | Object Root Path |
 | --- | --- |
@@ -102,7 +106,7 @@ This example demonstrates the effects of setting `omitScheme` to true.
 
 ```json
 {
-    "extensionName": "NNNN-path-direct-storage-layout",
+    "extensionName": "NNNN-uri-direct-storage-layout",
     "omitScheme": true
 }
 ```
@@ -122,7 +126,7 @@ This example demonstrates the effects configuring `replace` to do some static st
 
 ```json
 {
-    "extensionName": "NNNN-path-direct-storage-layout",
+    "extensionName": "NNNN-uri-direct-storage-layout",
     "replace": [["https://example\.com", "example"], ["(.+)doi\.org", ""]]
 }
 ```
@@ -136,13 +140,15 @@ This example demonstrates the effects configuring `replace` to do some static st
 
 ### Example 4
 
+
+
 This example demonstrates what happens when `suffix` is set to an empty string. The user must ensure that all the supplied object identifiers will not cause nested objects.
 
 #### Parameters
 
 ```json
 {
-    "extensionName": "NNNN-path-direct-storage-layout",
+    "extensionName": "NNNN-uri-direct-storage-layout",
     "suffix": ""
 }
 ```
